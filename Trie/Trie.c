@@ -23,13 +23,13 @@ int prefixSearch(Trie * trie, char * target);
 int numberOfWords(Trie * trie);
 
 // ctors, dtors
-TrieNode * TrieNode_ctor(char value);
+TrieNode * TrieNode_ctor();
 Trie * Trie_ctor();
 void TrieNode_dtor(TrieNode * node);
 void Trie_dtor(Trie * trie);
 
 // interface
-TrieNode * TrieNode_ctor(char value){
+TrieNode * TrieNode_ctor(){
     TrieNode * res = (TrieNode *)malloc(sizeof(TrieNode));
     
     // innit each trieNode in children
@@ -44,7 +44,7 @@ TrieNode * TrieNode_ctor(char value){
 
 Trie * Trie_ctor(){
     Trie * res = (Trie *)malloc(sizeof(Trie));
-    res->root = NULL;
+    res->root = TrieNode_ctor();
     res->wordCount = 0;
 
     return res;
@@ -113,6 +113,7 @@ void TrieNode_dtor(TrieNode * node){
     // base case:
     // can't do end since cat and cattle, cat -> end, we don't deallocate tle
     // loop through each element until all of its null, ensuring that we've hit last level
+    if (node == NULL) return;
 
     for(int i = 0; i < ALPHABET_SIZE; ++i){
         if(node->children[i] != NULL){
